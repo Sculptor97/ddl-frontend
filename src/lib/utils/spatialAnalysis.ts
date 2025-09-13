@@ -1,12 +1,13 @@
 import * as turf from '@turf/turf';
 import type { RouteData, DailyLog } from '@/lib/types/api';
+import type { Feature, LineString } from 'geojson';
 
 /**
  * Spatial analysis utilities using Turf.js
  */
 
 // Convert route coordinates to Turf LineString
-export const createRouteLineString = (route: RouteData): turf.Feature<turf.LineString> => {
+export const createRouteLineString = (route: RouteData): Feature<LineString> => {
   return turf.lineString(route.geometry.coordinates);
 };
 
@@ -25,7 +26,7 @@ export const calculateRouteDuration = (route: RouteData): number => {
 export const splitRouteByDrivingTime = (
   route: RouteData, 
   maxDrivingHours: number = 11
-): Array<{ segment: turf.Feature<turf.LineString>, distance: number, duration: number }> => {
+): Array<{ segment: Feature<LineString>, distance: number, duration: number }> => {
   const lineString = createRouteLineString(route);
   const totalDistance = calculateRouteDistance(route);
   const totalDuration = calculateRouteDuration(route);
@@ -34,7 +35,7 @@ export const splitRouteByDrivingTime = (
   const segmentsNeeded = Math.ceil(totalDuration / maxDrivingHours);
   const segmentDistance = totalDistance / segmentsNeeded;
   
-  const segments: Array<{ segment: turf.Feature<turf.LineString>, distance: number, duration: number }> = [];
+  const segments: Array<{ segment: Feature<LineString>, distance: number, duration: number }> = [];
   
   for (let i = 0; i < segmentsNeeded; i++) {
     const startDistance = i * segmentDistance;
@@ -99,7 +100,7 @@ export const generateHOSSchedule = (
 ): DailyLog[] => {
   const totalDuration = calculateRouteDuration(route);
   const maxDrivingHours = 11; // FMCSA limit
-  const maxOnDutyHours = 14; // FMCSA limit
+  // const maxOnDutyHours = 14; // FMCSA limit
   const requiredRestHours = 10; // FMCSA requirement
   
   const dailyLogs: DailyLog[] = [];
@@ -223,7 +224,7 @@ export const calculateRouteStatistics = (route: RouteData) => {
 
 // Find nearest rest areas or truck stops
 export const findNearestRestAreas = (
-  route: RouteData,
+  _route: RouteData,
   restStops: Array<{ location: [number, number], distance: number, timeFromStart: number }>
 ): Array<{ location: [number, number], distance: number, timeFromStart: number, amenities: string[] }> => {
   // This would typically integrate with a real API for truck stops

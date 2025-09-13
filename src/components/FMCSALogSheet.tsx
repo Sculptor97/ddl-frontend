@@ -17,7 +17,7 @@ import {
   RecapForm,
   HoursSummaryForm,
   PDFDownloadButton
-} from './FMCSALogSheet/';
+} from './FMCSALogSheet/index';
 
 interface FMCSALogSheetProps {
   dailyLogs: DailyLog[];
