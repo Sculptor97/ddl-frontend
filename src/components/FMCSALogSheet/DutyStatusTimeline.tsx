@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Input } from '@/components/ui/input';
 import { generateTimeSlots, calculateTimelineTotals, createContinuousTimeline } from '@/lib/utils/fmcsaUtils';
 import type { DailyLog } from '@/lib/types/api';
 import { DutyStatusCanvas } from './DutyStatusCanvas';

@@ -1,26 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, MapPin, Truck, Fuel, DollarSign, AlertTriangle } from 'lucide-react';
-import type { RouteData } from '@/lib/types/api';
+import { Clock, MapPin, Truck, AlertTriangle } from 'lucide-react';
+import type { RouteData, DailyLog } from '@/lib/types/api';
 import { calculateRouteStatistics, validateHOSCompliance } from '@/lib/utils/spatialAnalysis';
 
 interface RouteInfoProps {
   route: RouteData;
-  dailyLogs?: Array<{
-    date: string;
-    entries: Array<{
-      start_time: string;
-      end_time: string;
-      status: 'driving' | 'on_duty' | 'off_duty';
-      location: string;
-      duration: number;
-    }>;
-    totals: {
-      driving_hours: number;
-      on_duty_hours: number;
-      off_duty_hours: number;
-    };
-  }>;
+  dailyLogs?: DailyLog[];
 }
 
 export function RouteInfo({ route, dailyLogs = [] }: RouteInfoProps) {
@@ -177,6 +163,9 @@ export function RouteInfo({ route, dailyLogs = [] }: RouteInfoProps) {
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       {log.totals.off_duty_hours.toFixed(1)}h off duty
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      {log.totals.sleeper_berth_hours.toFixed(1)}h sleeper berth
                     </Badge>
                   </div>
                 </div>

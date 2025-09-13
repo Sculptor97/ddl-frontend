@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Clock, ChevronUp, ChevronDown } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Hide scrollbar styles
@@ -83,11 +83,6 @@ export function TimePicker({ value, onChange, className, placeholder = "Select t
     }
   };
 
-  const scrollToValue = (container: HTMLDivElement, value: number) => {
-    const itemHeight = 40;
-    const scrollTop = value * itemHeight;
-    container.scrollTop = scrollTop;
-  };
 
   return (
     <div className={cn("relative", className)} ref={timePickerRef}>

@@ -1,4 +1,3 @@
-import ApiRequest from '../axiosClient';
 import axios from 'axios';
 import type { TripPlanRequest, TripPlanResponse, Driver } from '../types/api';
 import { ENDPOINTS } from '../constants/endpoints';
@@ -20,7 +19,7 @@ export const tripPlannerApi = {
       
       return response.data;
     } catch (error: any) {
-      console.error('API Error:', error);
+  // console.error('API Error:', error); // Uncomment for debugging
       if (error.response) {
         throw {
           error: error.response.data?.error || error.response.data?.message || 'API request failed',
@@ -55,22 +54,47 @@ export const tripPlannerApi = {
       });
       
       return response.data;
-    } catch (error: any) {
-      console.error('API Error:', error);
-      if (error.response) {
+    } catch (error: unknown) {
+      // console.error('API Error:', error); // Uncomment for debugging
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        typeof (error as Record<string, unknown>).response === 'object' &&
+        (error as Record<string, unknown>).response !== null
+      ) {
+        const err = error as { response: { data?: { error?: string; message?: string } } };
         throw {
-          error: error.response.data?.error || error.response.data?.message || 'API request failed',
-          details: error.response.data
+          error: err.response.data?.error || err.response.data?.message || 'API request failed',
+          details: err.response.data
         };
-      } else if (error.request) {
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'request' in error &&
+        'message' in error &&
+        typeof (error as Record<string, unknown>).message === 'string'
+      ) {
+        const err = error as { message: string };
         throw {
           error: 'Network error - unable to reach the server',
-          details: error.message
+          details: err.message
+        };
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'message' in error &&
+        typeof (error as Record<string, unknown>).message === 'string'
+      ) {
+        const err = error as { message: string };
+        throw {
+          error: 'Request setup error',
+          details: err.message
         };
       } else {
         throw {
-          error: 'Request setup error',
-          details: error.message
+          error: 'Unknown error',
+          details: error
         };
       }
     }
@@ -79,7 +103,7 @@ export const tripPlannerApi = {
   /**
    * Get driver logs
    */
-  getDriverLogs: async (driverId: number): Promise<any[]> => {
+  getDriverLogs: async (driverId: number): Promise<unknown[]> => {
     const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
     
     try {
@@ -91,22 +115,47 @@ export const tripPlannerApi = {
       });
       
       return response.data;
-    } catch (error: any) {
-      console.error('API Error:', error);
-      if (error.response) {
+    } catch (error: unknown) {
+      // console.error('API Error:', error); // Uncomment for debugging
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        typeof (error as Record<string, unknown>).response === 'object' &&
+        (error as Record<string, unknown>).response !== null
+      ) {
+        const err = error as { response: { data?: { error?: string; message?: string } } };
         throw {
-          error: error.response.data?.error || error.response.data?.message || 'API request failed',
-          details: error.response.data
+          error: err.response.data?.error || err.response.data?.message || 'API request failed',
+          details: err.response.data
         };
-      } else if (error.request) {
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'request' in error &&
+        'message' in error &&
+        typeof (error as Record<string, unknown>).message === 'string'
+      ) {
+        const err = error as { message: string };
         throw {
           error: 'Network error - unable to reach the server',
-          details: error.message
+          details: err.message
+        };
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'message' in error &&
+        typeof (error as Record<string, unknown>).message === 'string'
+      ) {
+        const err = error as { message: string };
+        throw {
+          error: 'Request setup error',
+          details: err.message
         };
       } else {
         throw {
-          error: 'Request setup error',
-          details: error.message
+          error: 'Unknown error',
+          details: error
         };
       }
     }
