@@ -1,6 +1,16 @@
-# DDL Backend - React Frontend
+src/
+├── components/          # React components
+├── lib/
+│   ├── api/            # API client
+│   ├── config/         # Configuration
+│   ├── types/          # TypeScript types
+│   └── utils/          # Utility functions
+├── pages/              # Page components
+└── styles/             # CSS and styling
 
-A comprehensive Driver's Daily Log (DDL) application built with React, TypeScript, and modern mapping technologies.
+# DDL - React Frontend
+
+A comprehensive Driver's Daily Log (DDL) frontend application built with React, TypeScript, and modern mapping technologies.
 
 ## Features
 
@@ -15,7 +25,6 @@ A comprehensive Driver's Daily Log (DDL) application built with React, TypeScrip
 
 ## Technology Stack
 
-### Frontend
 - **React 19** with TypeScript
 - **react-map-gl** - Mapbox GL JS integration
 - **@turf/turf** - Spatial analysis and calculations
@@ -25,20 +34,13 @@ A comprehensive Driver's Daily Log (DDL) application built with React, TypeScrip
 - **Tailwind CSS** - Styling and responsive design
 - **Vite** - Build tool and development server
 
-### Backend
-- **Django REST Framework** - API backend
-- **PostgreSQL/SQLite** - Database
-- **OpenRouteService** - Route calculation
-- **Custom HOS Scheduler** - Hours of service compliance
-
 ## Installation
 
 ### Prerequisites
 - Node.js 18+ and npm
-- Python 3.9+ and pip
 - Mapbox account and access token
 
-### Frontend Setup
+### Setup
 
 1. Install dependencies:
 ```bash
@@ -47,35 +49,18 @@ npm install
 
 2. Create environment file:
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-3. Configure environment variables:
+3. Configure environment variables in `.env.local`:
 ```env
-VITE_API_BASE_URL=http://localhost:8000/api
+VITE_API_BASE_URL=https://your-backend-api-url/api
 VITE_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token_here
 ```
 
 4. Start development server:
 ```bash
 npm run dev
-```
-
-### Backend Setup
-
-1. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-2. Run migrations:
-```bash
-python manage.py migrate
-```
-
-3. Start Django server:
-```bash
-python manage.py runserver
 ```
 
 ## Usage
@@ -103,12 +88,6 @@ python manage.py runserver
    - Download FMCSA-compliant log sheets as PDF
    - Canvas-drawn duty status bars
    - Complete trip documentation
-
-### API Endpoints
-
-- `POST /api/plan-trip/` - Plan a trip with HOS compliance
-- `GET /api/drivers/` - Get all drivers
-- `GET /api/drivers/{id}/logs/` - Get driver HOS logs
 
 ## Component Architecture
 
@@ -179,16 +158,17 @@ src/
 
 ## Deployment
 
-### Frontend
+To build the frontend for production:
 ```bash
 npm run build
 ```
 
-### Backend
-```bash
-python manage.py collectstatic
-python manage.py migrate
-```
+You can deploy the `dist/` folder to any static hosting provider (e.g., Vercel, Netlify, GitHub Pages).
+
+- **Vercel**: Recommended for Vite/React projects, easy integration, and fast global CDN.
+- **Netlify**: Also excellent for static sites, with built-in features and plugins.
+
+Refer to your chosen provider's documentation for deployment steps.
 
 ## Contributing
 
