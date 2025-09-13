@@ -1,0 +1,75 @@
+/* PDF-specific styles using only hex colors to avoid oklch parsing issues */
+
+.fmcsa-log-sheet-pdf {
+  /* Override any oklch colors with hex equivalents */
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+.fmcsa-log-sheet-pdf .bg-gray-100,
+.fmcsa-log-sheet-pdf .bg-gray-50 {
+  background-color: #f3f4f6 !important;
+}
+
+.fmcsa-log-sheet-pdf .bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
+.fmcsa-log-sheet-pdf .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.fmcsa-log-sheet-pdf .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+.fmcsa-log-sheet-pdf .text-gray-900 {
+  color: #111827 !important;
+}
+
+.fmcsa-log-sheet-pdf .border-gray-300 {
+  border-color: #d1d5db !important;
+}
+
+.fmcsa-log-sheet-pdf .border-gray-200 {
+  border-color: #e5e7eb !important;
+}
+
+.fmcsa-log-sheet-pdf .border-gray-100 {
+  border-color: #f3f4f6 !important;
+}
+
+/* Ensure all text is black for better PDF readability */
+.fmcsa-log-sheet-pdf * {
+  color: #000000 !important;
+}
+
+.fmcsa-log-sheet-pdf .text-sm {
+  font-size: 0.875rem !important;
+}
+
+.fmcsa-log-sheet-pdf .text-xs {
+  font-size: 0.75rem !important;
+}
+
+.fmcsa-log-sheet-pdf .text-lg {
+  font-size: 1.125rem !important;
+}
+
+.fmcsa-log-sheet-pdf .text-2xl {
+  font-size: 1.5rem !important;
+}
+
+.fmcsa-log-sheet-pdf .font-bold {
+  font-weight: 700 !important;
+}
+
+.fmcsa-log-sheet-pdf .font-semibold {
+  font-weight: 600 !important;
+}
+
+.fmcsa-log-sheet-pdf .font-medium {
+  font-weight: 500 !important;
+}
+
+

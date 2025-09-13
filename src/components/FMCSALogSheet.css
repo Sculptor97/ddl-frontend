@@ -1,0 +1,224 @@
+/* FMCSA Log Sheet Grid Layout */
+.fmcsa-log-sheet {
+  font-family: Arial, sans-serif;
+  line-height: 1.2;
+}
+
+/* Form spacing */
+.fmcsa-log-sheet .form-group {
+  margin-bottom: 16px;
+}
+
+.fmcsa-log-sheet .form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #374151;
+}
+
+.fmcsa-log-sheet .form-group input,
+.fmcsa-log-sheet .form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fmcsa-log-sheet .form-group input:focus,
+.fmcsa-log-sheet .form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Grid form layouts */
+.fmcsa-log-sheet .form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fmcsa-log-sheet .form-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Centered container with proper width handling */
+.fmcsa-log-sheet {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.fmcsa-log-sheet .log-sheet-container {
+  width: 1424px; /* 192px (label) + 1152px (time slots) + 80px (total) */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Duty status grid */
+.fmcsa-log-sheet .duty-status-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.fmcsa-log-sheet .duty-status-header {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  height: 40px;
+}
+
+.fmcsa-log-sheet .duty-status-label {
+  width: 192px;
+  min-width: 192px;
+  max-width: 192px;
+  background-color: #f9fafb;
+  border-right: 1px solid #d1d5db;
+  padding: 8px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.fmcsa-log-sheet .duty-status-row {
+  height: 40px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.fmcsa-log-sheet .time-slots-container {
+  width: 1152px;
+  min-width: 1152px;
+  max-width: 1152px;
+  display: flex;
+}
+
+.fmcsa-log-sheet .time-slot {
+  width: 12px;
+  min-width: 12px;
+  max-width: 12px;
+  height: 40px;
+  border-right: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.fmcsa-log-sheet .time-slot.hour-mark {
+  border-right: 1px solid #d1d5db;
+}
+
+.fmcsa-log-sheet .total-hours {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  background-color: #f9fafb;
+  border-left: 1px solid #d1d5db;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Time header styling */
+.fmcsa-log-sheet .time-header {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  height: 40px;
+  display: flex;
+}
+
+.fmcsa-log-sheet .time-header-label {
+  width: 192px;
+  min-width: 192px;
+  max-width: 192px;
+  background-color: #f3f4f6;
+  border-right: 1px solid #d1d5db;
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.fmcsa-log-sheet .time-header-slots {
+  width: 1152px;
+  min-width: 1152px;
+  max-width: 1152px;
+  display: flex;
+}
+
+.fmcsa-log-sheet .time-header-slot {
+  width: 12px;
+  min-width: 12px;
+  max-width: 12px;
+  height: 40px;
+  border-right: 1px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.fmcsa-log-sheet .time-header-total {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  background-color: #f3f4f6;
+  border-left: 1px solid #d1d5db;
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Canvas overlay */
+.fmcsa-log-sheet .canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Input styling for totals */
+.fmcsa-log-sheet .total-input {
+  width: 100%;
+  height: 24px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fmcsa-log-sheet .total-input:focus {
+  outline: 1px solid #3b82f6;
+  background: white;
+}
+
+/* Print styles */
+@media print {
+  .fmcsa-log-sheet .no-print {
+    display: none !important;
+  }
+  
+  .fmcsa-log-sheet .print-break {
+    page-break-before: always;
+  }
+  
+  .fmcsa-log-sheet .log-sheet-container {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .fmcsa-log-sheet .time-slot {
+    width: 10px;
+    min-width: 10px;
+    max-width: 10px;
+  }
+  
+  .fmcsa-log-sheet .time-slots-container {
+    width: 960px;
+    min-width: 960px;
+    max-width: 960px;
+  }
+}
