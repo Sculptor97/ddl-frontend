@@ -4,7 +4,7 @@ import { Download } from 'lucide-react';
 
 interface PDFDownloadButtonProps {
   date: string;
-  logSheetRef: React.RefObject<HTMLDivElement>;
+  logSheetRef: React.RefObject<HTMLDivElement | null>;
   collapsibleStates: {
     isTripInfoOpen: boolean;
     isVehicleInfoOpen: boolean;
