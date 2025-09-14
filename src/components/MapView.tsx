@@ -142,13 +142,6 @@ export function MapView({ route, currentLocation, pickup, dropoff, dailyLogs }: 
     zoom: 10
   });
 
-  // Debug logging
-  console.log('MapView props:', { route, currentLocation, pickup, dropoff });
-  console.log('Route geometry:', route.geometry);
-  console.log('Route coordinates length:', route.geometry?.coordinates?.length);
-  console.log('Current location:', currentLocation);
-  console.log('Pickup location:', pickup);
-  console.log('Dropoff location:', dropoff);
 
   // Calculate bounds to fit all points
   const calculateBounds = useCallback(() => {

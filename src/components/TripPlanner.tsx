@@ -37,9 +37,6 @@ export function TripPlanner() {
       return;
     }
     
-    console.log('TripPlanner received trip data:', data);
-    console.log('Daily logs:', data.daily_logs);
-    console.log('Number of daily logs:', data.daily_logs.length);
     
     setTripData(data);
     setError(null);

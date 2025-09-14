@@ -52,12 +52,6 @@ export function FMCSALogSheet({
   const [isRecapOpen, setIsRecapOpen] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   
-  // Debug logging to track data changes
-  console.log('FMCSALogSheet received dailyLogs:', dailyLogs);
-  console.log('Number of daily logs:', dailyLogs.length);
-  if (dailyLogs.length > 0) {
-    console.log('Single day log entry:', dailyLogs[0]);
-  }
   
   // Extract location information from daily logs
   const extractLocationInfo = useMemo(() => {
@@ -112,6 +106,7 @@ export function FMCSALogSheet({
       {/* PDF Download Button */}
       <PDFDownloadButton 
         date={date}
+        logSheetRef={logSheetRef}
         collapsibleStates={collapsibleStates}
         onStateChange={handleStateChange}
       />

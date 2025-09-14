@@ -100,7 +100,6 @@ export function TripForm({ onTripPlanned, onError, onLoading, onCoordinatesChang
     address: string,
     coordinates?: [number, number]
   ) => {
-    console.log('Address change:', { type, address, coordinates });
     setAddressData(prev => ({
       ...prev,
       [type]: { address, coordinates }
@@ -172,8 +171,6 @@ export function TripForm({ onTripPlanned, onError, onLoading, onCoordinatesChang
         throw new Error('No response received from server');
       }
       
-      console.log('TripForm received API response:', response);
-      console.log('Response daily_logs:', response.daily_logs);
       
       onTripPlanned(response);
       toast.success('Trip planned successfully!');
@@ -197,7 +194,6 @@ export function TripForm({ onTripPlanned, onError, onLoading, onCoordinatesChang
         errorMessage = error.message;
       }
       
-      console.log('Extracted error message:', errorMessage);
       onError(errorMessage);
       toast.error(errorMessage);
     } finally {

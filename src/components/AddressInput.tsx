@@ -99,7 +99,6 @@ export function AddressInput({
   };
 
   const selectSuggestion = (suggestion: GeocodingResult) => {
-    console.log('Selecting suggestion:', suggestion);
     onChange(suggestion.place_name, suggestion.coordinates);
     setShowSuggestions(false);
     setSelectedIndex(-1);

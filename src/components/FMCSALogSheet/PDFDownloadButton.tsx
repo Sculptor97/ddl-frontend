@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 
 interface PDFDownloadButtonProps {
   date: string;
+  logSheetRef: React.RefObject<HTMLDivElement>;
   collapsibleStates: {
     isTripInfoOpen: boolean;
     isVehicleInfoOpen: boolean;
@@ -22,10 +23,10 @@ interface PDFDownloadButtonProps {
 
 export function PDFDownloadButton({ 
   date, 
+  logSheetRef,
   collapsibleStates, 
   onStateChange 
 }: PDFDownloadButtonProps) {
-  const logSheetRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = async () => {
     if (!logSheetRef.current) return;
@@ -129,8 +130,13 @@ export function PDFDownloadButton({
       const imgWidth = 210;
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Validate dimensions before proceeding
+      if (!isFinite(imgHeight) || imgHeight <= 0) {
+        throw new Error('Invalid image dimensions calculated');
+      }
+      
       let heightLeft = imgHeight;
-
       let position = 0;
 
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
@@ -197,7 +203,13 @@ export function PDFDownloadButton({
         const imgWidth = 210;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
         
-        pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+        // Ensure valid dimensions
+        if (imgWidth > 0 && imgHeight > 0 && isFinite(imgWidth) && isFinite(imgHeight)) {
+          pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+        } else {
+          // Fallback with default dimensions
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+        }
         pdf.save(`FMCSA_LogSheet_${date.replace(/\//g, '-')}.pdf`);
       } catch (fallbackError) {
         console.error('Fallback PDF generation also failed:', fallbackError);
@@ -224,8 +236,6 @@ export function PDFDownloadButton({
         </div>
       </div>
 
-      {/* Hidden ref for PDF generation */}
-      <div ref={logSheetRef} style={{ display: 'none' }} />
     </div>
   );
 }

@@ -41,7 +41,7 @@ jest.mock('../FMCSALogSheet/', () => ({
       <div>Driving Hours: {timelineTotals.driving}</div>
     </div>
   ),
-  PDFDownloadButton: ({ date, collapsibleStates, onStateChange }: any) => (
+  PDFDownloadButton: ({ date, logSheetRef, collapsibleStates, onStateChange }: any) => (
     <div data-testid="pdf-download-button">
       <button onClick={() => onStateChange({ ...collapsibleStates, isTripInfoOpen: true })}>
         Download PDF
