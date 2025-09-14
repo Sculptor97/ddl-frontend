@@ -66,6 +66,8 @@ export function PDFDownloadButton({
         logging: false,
         foreignObjectRendering: false,
         removeContainer: true,
+        imageTimeout: 15000,
+        proxy: undefined,
         ignoreElements: (element) => {
           // Skip elements that might cause color parsing issues
           return element.classList.contains('skip-pdf');
@@ -74,13 +76,45 @@ export function PDFDownloadButton({
           // Comprehensive oklch color replacement for PDF compatibility
           const replaceOklchColors = (text: string): string => {
             return text.replace(/oklch\([^)]+\)/g, (match) => {
-              // Convert common oklch colors to hex equivalents
-              if (match.includes('0.7') && match.includes('0.15')) return '#3b82f6'; // blue
-              if (match.includes('0.6') && match.includes('0.2')) return '#10b981'; // green
-              if (match.includes('0.5') && match.includes('0.25')) return '#f59e0b'; // amber
-              if (match.includes('0.4') && match.includes('0.3')) return '#ef4444'; // red
-              if (match.includes('0.8') && match.includes('0.1')) return '#6b7280'; // gray
-              return '#000000'; // fallback to black
+              // More comprehensive oklch to hex conversion
+              const oklchMatch = match.match(/oklch\(([^)]+)\)/);
+              if (!oklchMatch) return '#000000';
+              
+              const values = oklchMatch[1].split(/\s+/).map(v => parseFloat(v.trim()));
+              if (values.length < 3) return '#000000';
+              
+              const [l, , h] = values;
+              
+              // Convert oklch to approximate hex values based on lightness and hue
+              if (l > 0.8) {
+                if (h >= 0 && h < 60) return '#fef3c7'; // yellow
+                if (h >= 60 && h < 120) return '#d1fae5'; // green
+                if (h >= 120 && h < 180) return '#dbeafe'; // cyan
+                if (h >= 180 && h < 240) return '#e0e7ff'; // blue
+                if (h >= 240 && h < 300) return '#f3e8ff'; // purple
+                return '#f3f4f6'; // gray
+              } else if (l > 0.6) {
+                if (h >= 0 && h < 60) return '#f59e0b'; // amber
+                if (h >= 60 && h < 120) return '#10b981'; // emerald
+                if (h >= 120 && h < 180) return '#06b6d4'; // cyan
+                if (h >= 180 && h < 240) return '#3b82f6'; // blue
+                if (h >= 240 && h < 300) return '#8b5cf6'; // violet
+                return '#6b7280'; // gray
+              } else if (l > 0.4) {
+                if (h >= 0 && h < 60) return '#d97706'; // orange
+                if (h >= 60 && h < 120) return '#059669'; // green
+                if (h >= 120 && h < 180) return '#0891b2'; // sky
+                if (h >= 180 && h < 240) return '#2563eb'; // blue
+                if (h >= 240 && h < 300) return '#7c3aed'; // purple
+                return '#4b5563'; // gray
+              } else {
+                if (h >= 0 && h < 60) return '#b45309'; // amber
+                if (h >= 60 && h < 120) return '#047857'; // green
+                if (h >= 120 && h < 180) return '#0e7490'; // cyan
+                if (h >= 180 && h < 240) return '#1d4ed8'; // blue
+                if (h >= 240 && h < 300) return '#6d28d9'; // purple
+                return '#374151'; // gray
+              }
             });
           };
 
@@ -101,7 +135,7 @@ export function PDFDownloadButton({
             }
           });
 
-          // Replace oklch in CSS custom properties
+          // Replace oklch in CSS custom properties and computed styles
           const rootElement = clonedDoc.documentElement;
           const computedStyle = clonedDoc.defaultView?.getComputedStyle(rootElement);
           if (computedStyle) {
@@ -112,6 +146,20 @@ export function PDFDownloadButton({
               const value = computedStyle.getPropertyValue(prop);
               rootElement.style.setProperty(prop, replaceOklchColors(value));
             });
+          }
+
+          // Additional comprehensive oklch replacement in all text content
+          const walker = clonedDoc.createTreeWalker(
+            clonedDoc.body,
+            NodeFilter.SHOW_TEXT,
+            null
+          );
+          
+          let node;
+          while ((node = walker.nextNode())) {
+            if (node.textContent && node.textContent.includes('oklch')) {
+              node.textContent = replaceOklchColors(node.textContent);
+            }
           }
         }
       });
@@ -175,7 +223,21 @@ export function PDFDownloadButton({
           onclone: (clonedDoc) => {
             // Aggressive oklch replacement for fallback
             const replaceAllOklch = (text: string): string => {
-              return text.replace(/oklch\([^)]+\)/g, '#000000');
+              return text.replace(/oklch\([^)]+\)/g, (match) => {
+                // Simple fallback - convert to safe colors
+                const oklchMatch = match.match(/oklch\(([^)]+)\)/);
+                if (!oklchMatch) return '#000000';
+                
+                const values = oklchMatch[1].split(/\s+/).map(v => parseFloat(v.trim()));
+                if (values.length < 3) return '#000000';
+                
+                const [l] = values;
+                
+                // Simple lightness-based conversion
+                if (l > 0.7) return '#ffffff'; // white
+                if (l > 0.4) return '#6b7280'; // gray
+                return '#000000'; // black
+              });
             };
 
             // Replace in all style elements
